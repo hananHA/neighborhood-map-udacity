@@ -31,18 +31,15 @@ var initLocations = [
 		name: "Crowne Plaza",
 		lat: 21.517421,
 		lng: 39.155831
-    }
-    ,{
+    },{
 		name: "McDonald's",
 		lat: 21.516303,
 		lng: 39.154351
-    }
-    ,{
+    },{
 		name: "Park Hyatt",
 		lat: 21.513968,
 		lng: 39.154555
-    }
-    ,{
+    },{
 		name: "Strabucks",
 		lat: 21.522511,
 		lng: 39.162891
@@ -306,7 +303,7 @@ var ApiInfo = function(name) {
 			clearTimeout(wikiRequestTimeOut);
 		}
 	});
-}
+};
 
 // The Model
 var Location = function(data) {
@@ -418,5 +415,3 @@ var ViewModel = function() {
 var render = function() {
 	ko.applyBindings(new ViewModel());
 };
-
-
