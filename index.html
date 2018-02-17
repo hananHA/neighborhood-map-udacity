@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link rel="stylesheet" href="css/style.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Al-Hamra'a Neighborhood Map</title>
+</head>
+<body>
+
+	<div class="container1">
+		<div class="locations-box pos-f-t">
+			<div style="display: inline-flex;">
+				<h4>Al-Hamra'a Neighborhood</h4>
+				<button id="toggle" class="navbar-toggler" type="button" onclick="toggleContent()">
+		            <span class="navbar-toggler-icon icon"><img id="arrow" src="icons/down.png"></span>
+	            </button>
+			</div>
+            <div id="toggelContent" style="display: none;">
+	            <div class="search-box">
+			        <input class="form-control mr-sm-2" type="text" placeholder="Search for a location" data-bind="textInput: query">
+		        </div>
+			    <div>
+				    <ul data-bind="foreach: filteredLocs">
+				    	<li class="pointer" id="loc" data-bind="text: name, click: bounce"></li>
+			    	</ul>
+			    </div>
+            </div>
+		</div>
+		<div id="map"></div>
+		<div id="wikiBox" class="wiki-box" style="display: none;">
+			<button class="button icon pointer" type="button" onclick="closeWindow()">
+				<span><img src="icons/close.png"></span>
+			</button>
+			<h4 id="infoHeader"></h4>
+			<ul id="infoList">
+			</ul>
+		</div>
+	</div>
+
+	<script>
+		function toggleContent() {
+			$('#toggelContent').toggle();
+			var $imgSrc = $('#arrow').attr('src');
+			if($imgSrc === 'icons/down.png') {
+				$('#arrow').attr('src', 'icons/up.png');
+			}else {
+				$('#arrow').attr('src', 'icons/down.png');
+			}
+		}
+
+		function closeWindow() {
+			$('#wikiBox').hide();
+		}
+	</script>
+
+	<script src='js/knockout-3.4.0.js'></script>
+	<script src='js/jquery-1.12.0.min.js'></script>
+	<script src='js/map.js'></script>
+	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCuxJsFG2jE6b1AMoWjgNXPeYNxpXPcYYQ&v=3&callback=render"></script>
+</body>
+</html>
