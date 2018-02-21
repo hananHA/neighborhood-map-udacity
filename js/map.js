@@ -6,10 +6,6 @@
 
 // declaring global variables 
 
-var $infoList = $('#infoList');
-var $infoHeader = $('#infoHeader');
-var $wikiBox = $('#wikiBox');
-
 var initLocations = [
     {
 		name: "Chili's Restaurant",
@@ -40,7 +36,7 @@ var initLocations = [
 		lat: 21.513968,
 		lng: 39.154555
     },{
-		name: "Strabucks",
+		name: "Starbucks",
 		lat: 21.522511,
 		lng: 39.162891
     }
@@ -274,37 +270,6 @@ var styles = [
     }
 ];
 
-// Wikipedia API
-// from UDACITY lessons
-var ApiInfo = function(name) {
-
-	var wikiApiUrl = 'https://en.wikipedia.org/w/api.php?action=opensearch&format=json&search='+name+'&limit=20&callback=wikiCallback';
-
-	var wikiRequestTimeOut = setTimeout(function() {
-		$infoList.html("");
-		$infoHeader.text('Failed to get wikipedia resources. Please check your connection and try again.');
-	}, 8000);
-
-	$.ajax({
-		url: wikiApiUrl,
-		dataType: "jsonp",
-		success: function(response) {
-			//clear out old data
-			$infoList.html("");
-			$infoHeader.text("Articles about "+name+" on Wikipedia:");
-			var articleList = response[1];
-			//get the first five articles from articleList
-			var articles = articleList.slice(0,5);
-			for(var i = 0; i < articles.length; i++) {
-				articleStr = articleList[i];
-				var url = 'http://en.wikipedia.org/wiki/'+ articleStr;
-				$infoList.append('<li><a href="'+url+'">'+ articleStr +'</a></li>');
-			}
-			clearTimeout(wikiRequestTimeOut);
-		}
-	});
-};
-
 // The Model
 var Location = function(data) {
 
@@ -314,6 +279,7 @@ var Location = function(data) {
 	this.lat = data.lat;
 	this.lng = data.lng;
 
+	var largeInfoWindow = new google.maps.InfoWindow();
 
 	var defaultIcon = makeMarkerIcon('aa5355');
 	var highlightedIcon = makeMarkerIcon('53aaa8');
@@ -331,9 +297,8 @@ var Location = function(data) {
 
 	// when the marker is clicked, get the API info and show it and bounce the marker
 	this.marker.addListener('click', function() {
-		ApiInfo(data.name);
-		$wikiBox.show();
 		self.bounce();
+		populateInfoWindow(this, largeInfoWindow);
 	});
 
 	// change the color of the marker when hovering on the marker
@@ -345,6 +310,29 @@ var Location = function(data) {
 	this.marker.addListener('mouseout', function() {
 		self.marker.setIcon(defaultIcon);
 	});
+
+	// display the infoWindow with wikipedia information
+	function populateInfoWindow(marker, infoWindow) {
+		if (infoWindow.marker != marker) {
+			infoWindow.marker = marker;
+		}
+
+        var wikiApiUrl = 'https://en.wikipedia.org/w/api.php?action=opensearch&format=json&search='+marker.title+'&limit=20&callback=wikiCallback';
+
+        $.ajax({
+        	url: wikiApiUrl,
+        	dataType: 'jsonp'
+        }).done(function(response) {
+        	var link = response[3][0];
+        	var description = response[2][0];
+        	infoWindow.setContent('<h5>'+marker.title+'</h5>'+'<p>'+description+'</p>'+'<a href="'+link+'" target="blank" style="display:block;">Click here for more information</a>');
+        	infoWindow.open(map, marker);
+        }).fail(function() {
+        	infoWindow.setContent('<h5>'+marker.title+'</h5>');
+        	infoWindow.open(map, marker);
+        	alert("An error must have occured loading the information");
+        });
+	}
 
 	// create the marker image 
 	function makeMarkerIcon(markerColor) {
@@ -361,6 +349,7 @@ var Location = function(data) {
 	this.bounce = function(loc) {
 		self.marker.setAnimation(google.maps.Animation.BOUNCE);
 		setTimeout(function(){ self.marker.setAnimation(null); }, 750);
+		populateInfoWindow(self.marker, largeInfoWindow);
 	};
 
 };
@@ -408,9 +397,13 @@ var ViewModel = function() {
             return loc.name;
            }
        });
-   },this);  
+   },this);
 
 };
+
+function mapErrorHandling() {
+	alert("An error must have occured loading the map. Please check your internet connection and try again.");
+}
 
 var render = function() {
 	ko.applyBindings(new ViewModel());

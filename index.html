@@ -29,14 +29,6 @@
             </div>
 		</div>
 		<div id="map"></div>
-		<div id="wikiBox" class="wiki-box" style="display: none;">
-			<button class="button icon pointer" type="button" onclick="closeWindow()">
-				<span><img src="icons/close.png"></span>
-			</button>
-			<h4 id="infoHeader"></h4>
-			<ul id="infoList">
-			</ul>
-		</div>
 	</div>
 
 	<script>
@@ -58,6 +50,6 @@
 	<script src='js/knockout-3.4.0.js'></script>
 	<script src='js/jquery-1.12.0.min.js'></script>
 	<script src='js/map.js'></script>
-	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCuxJsFG2jE6b1AMoWjgNXPeYNxpXPcYYQ&v=3&callback=render"></script>
+	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCuxJsFG2jE6b1AMoWjgNXPeYNxpXPcYYQ&v=3&callback=render" onerror="mapErrorHandling()"></script>
 </body>
 </html>
