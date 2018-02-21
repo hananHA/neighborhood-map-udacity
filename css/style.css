@@ -34,25 +34,8 @@ html, body {
 	padding: 16px;
 }
 
-.wiki-box {
-	position: relative;
-    width: 500px;
-	top: -600px;
-	background-color: #fff;
-	opacity: 0.9;
-	border-radius: 10px;
-	color: black;
-	margin: 0 auto;
-	padding: 16px;
-}
-
 .icon {
 	float: right;
-}
-
-.button {
-	background-color: inherit;
-	border: none;
 }
 
 .pointer {
@@ -65,10 +48,5 @@ html, body {
 		width: 100%;
 		position: absolute;
 		top: 0px;
-	}
-
-	.wiki-box {
-		width: 75%;
-		top: -400px;
 	}
 }
