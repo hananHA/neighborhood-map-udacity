@@ -288,17 +288,15 @@ var Location = function(data) {
 	this.marker = new google.maps.Marker({
 		position: new google.maps.LatLng(data.lat, data.lng),
 		title: data.name,
+		map: map,
 		icon: defaultIcon,
 		animation: google.maps.Animation.DROP
 	});
 
-	// set the marker on the map
-	this.marker.setMap(map);
-
 	// when the marker is clicked, get the API info and show it and bounce the marker
 	this.marker.addListener('click', function() {
 		self.bounce();
-		populateInfoWindow(this, largeInfoWindow);
+		populateInfoWindow(self.marker, largeInfoWindow);
 	});
 
 	// change the color of the marker when hovering on the marker
@@ -328,9 +326,7 @@ var Location = function(data) {
         	infoWindow.setContent('<h5>'+marker.title+'</h5>'+'<p>'+description+'</p>'+'<a href="'+link+'" target="blank" style="display:block;">Click here for more information</a>');
         	infoWindow.open(map, marker);
         }).fail(function() {
-        	infoWindow.setContent('<h5>'+marker.title+'</h5>');
-        	infoWindow.open(map, marker);
-        	alert("An error must have occured loading the information");
+        	alert("An error must have occured loading the information from wikipedia.");
         });
 	}
 
@@ -348,7 +344,7 @@ var Location = function(data) {
 	// animate the marker and then stop the animation after 750ms
 	this.bounce = function(loc) {
 		self.marker.setAnimation(google.maps.Animation.BOUNCE);
-		setTimeout(function(){ self.marker.setAnimation(null); }, 750);
+		setTimeout(function(){ self.marker.setAnimation(null); }, 1400);
 		populateInfoWindow(self.marker, largeInfoWindow);
 	};
 
