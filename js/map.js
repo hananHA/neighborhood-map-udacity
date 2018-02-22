@@ -275,9 +275,9 @@ var Location = function(data) {
 
 	var self = this;
 
-	this.name = data.name;
-	this.lat = data.lat;
-	this.lng = data.lng;
+	self.name = data.name;
+	self.lat = data.lat;
+	self.lng = data.lng;
 
 	var largeInfoWindow = new google.maps.InfoWindow();
 
