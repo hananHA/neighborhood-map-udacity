@@ -315,7 +315,7 @@ var Location = function(data) {
 			infoWindow.marker = marker;
 		}
 
-        var wikiApiUrl = 'https://en.wikiasdfpedia.org/w/api.php?action=opensearch&format=json&search='+marker.title+'&limit=20&callback=wikiCallback';
+        var wikiApiUrl = 'https://en.wikipedia.org/w/api.php?action=opensearch&format=json&search='+marker.title+'&limit=20&callback=wikiCallback';
 
         $.ajax({
         	url: wikiApiUrl,
