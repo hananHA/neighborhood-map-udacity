@@ -296,13 +296,13 @@ var Location = function(data) {
 	// when the marker is clicked, get the API info and show it and bounce the marker
 	this.marker.addListener('click', function() {
 		self.bounce();
-		populateInfoWindow(self.marker, largeInfoWindow);
 	});
 
 	// change the color of the marker when hovering on the marker
 	this.marker.addListener('mouseover', function() {
 		self.marker.setIcon(highlightedIcon);
 	});
+
 
 	// change the color of the marker to default
 	this.marker.addListener('mouseout', function() {
@@ -341,7 +341,7 @@ var Location = function(data) {
 		return markerImage;
 	}
 
-	// animate the marker and then stop the animation after 750ms
+	// animate the marker and then stop the animation after 1400ms
 	this.bounce = function(loc) {
 		self.marker.setAnimation(google.maps.Animation.BOUNCE);
 		setTimeout(function(){ self.marker.setAnimation(null); }, 1400);
@@ -365,7 +365,11 @@ var ViewModel = function() {
 		center: {lat: 21.519314, lng: 39.161415}, 
 		zoom: 17,
 		styles: styles,
-		mapTypeControl: false
+		mapTypeControl: false,
+        fullscreenControl: true,
+        fullscreenControlOptions: {
+            position: google.maps.ControlPosition.RIGHT_BOTTOM
+        }
 	});
 
 	// push the defined locations to the observable array
